@@ -26,9 +26,10 @@ class SlideStyleFactory extends Factory
 
     private function getRandomColor()
     {
-        $r = fake()->numberBetween(0, 255);
-        $g = fake()->numberBetween(0, 255);
-        $b = fake()->numberBetween(0, 255);
-        return "rgb($r, $g, $b)";
+//        $r = fake()->numberBetween(0, 255);
+//        $g = fake()->numberBetween(0, 255);
+//        $b = fake()->numberBetween(0, 255);
+//        return "rgb($r, $g, $b)";
+        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 }

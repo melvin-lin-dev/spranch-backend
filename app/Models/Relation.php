@@ -24,7 +24,8 @@ class Relation extends Model
 
     protected $with = [
         'slide_part1',
-        'slide_part2'
+        'slide_part2',
+        'style'
     ];
 
     public function slide_part1()
@@ -35,5 +36,10 @@ class Relation extends Model
     public function slide_part2()
     {
         return $this->belongsTo(SlidePart::class, 'slide_part2_id')->with('slide');
+    }
+
+    public function style()
+    {
+        return $this->hasOne(RelationStyle::class, 'relation_id');
     }
 }

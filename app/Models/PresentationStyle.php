@@ -6,21 +6,17 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SlideStyle extends Model
+class PresentationStyle extends Model
 {
     use HasUuids, HasFactory;
 
     protected $fillable = [
-        'slide_id',
-        'top',
-        'left',
-        'width',
-        'height',
-        'color',
-        'background_color'
+        'presentation_id',
+        'background_color',
+        'selected_element_color'
     ];
 
     protected $hidden = [
-        'slide_id'
+        'presentation_id'
     ];
 }

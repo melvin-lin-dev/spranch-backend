@@ -15,4 +15,19 @@ class Presentation extends Model
         'title',
         'description'
     ];
+
+    protected $with = [
+        'slides',
+        'style'
+    ];
+
+    public function slides()
+    {
+        return $this->hasMany(Slide::class, 'presentation_id')->with(['style', 'detail', 'relations']);
+    }
+
+    public function style()
+    {
+        return $this->hasOne(PresentationStyle::class, 'presentation_id');
+    }
 }

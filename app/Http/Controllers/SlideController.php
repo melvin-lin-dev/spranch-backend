@@ -10,6 +10,7 @@ class SlideController extends Controller
 {
     public function index()
     {
+        // TODO: temporary
         $presentation = Presentation::first();
 
         return response()->json([

@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ElementController;
+use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\RelationController;
 
@@ -22,6 +24,7 @@ use App\Http\Controllers\RelationController;
 //});
 
 Route::prefix('v1')->group(function () {
+    Route::resource('presentations', PresentationController::class);
     Route::resource('slides', SlideController::class);
     Route::resource('relations', RelationController::class);
 });

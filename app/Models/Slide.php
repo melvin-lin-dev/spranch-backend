@@ -14,19 +14,27 @@ class Slide extends Model
         'presentation_id',
         'title',
         'description',
+        'element_id',
         'detail_id'
     ];
 
     public $hidden = [
         'presentation_id',
+        'slide_id',
         'detail_id'
     ];
 
     protected $with = [
+        'element'
 //        'style',
 //        'detail',
 //        'relations'
     ];
+
+    public function element()
+    {
+        return $this->hasOne(Element::class, 'element_id');
+    }
 
     public function style()
     {

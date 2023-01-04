@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->uuid('slide_part1_id');
             $table->uuid('slide_part2_id');
-            $table->string('title1', 100);
-            $table->string('title2', 100);
+            $table->string('title1', 100)->nullable();
+            $table->string('title2', 100)->nullable();
             $table->timestamps();
 
             $table->index(['slide_part1_id', 'slide_part2_id']);

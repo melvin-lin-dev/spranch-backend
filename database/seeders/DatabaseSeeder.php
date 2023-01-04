@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Presentation;
+use App\Models\PresentationStyle;
 use App\Models\Relation;
+use App\Models\RelationStyle;
 use App\Models\Slide;
 use App\Models\SlidePart;
 use App\Models\SlideStyle;
@@ -19,21 +21,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         $presentation = Presentation::factory()->create(['is_main' => true]);
+        PresentationStyle::factory()->create(['presentation_id' => $presentation->id]);
 
         $slides = Slide::factory(5)->create(['presentation_id' => $presentation->id]);
 
         // Update Detail for Index 0
         $presentationDetail = Presentation::factory()->create();
+        PresentationStyle::factory()->create(['presentation_id' => $presentation->id]);
         $slideDetail = Slide::factory()->create(['presentation_id' => $presentationDetail->id]);
         SlideStyle::factory()->create(['slide_id' => $slideDetail->id]);
+
+        $slides[0]->detail_id = $presentationDetail->id;
+        $slides[0]->save();
         // =========================
 
         $slideParts = collect([]);
@@ -50,14 +50,11 @@ class DatabaseSeeder extends Seeder
         $firstValue = $slideParts2->splice(0, 1);
         $slideParts2->push(...$firstValue);
         for ($i = 0; $i < $slideParts1->count(); $i++) {
-            Relation::factory()->create([
+            $relation = Relation::factory()->create([
                 'slide_part1_id' => $slideParts1[$i],
-                'slide_part2_id' => $slideParts2[$i]
+                'slide_part2_id' => $slideParts2[$i],
             ]);
+            RelationStyle::factory()->create(['relation_id' => $relation->id]);
         }
-
-//        $this->call([
-//
-//        ]);
     }
 }

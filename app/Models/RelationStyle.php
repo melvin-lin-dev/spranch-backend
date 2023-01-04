@@ -6,21 +6,16 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SlideStyle extends Model
+class RelationStyle extends Model
 {
     use HasUuids, HasFactory;
 
     protected $fillable = [
-        'slide_id',
-        'top',
-        'left',
-        'width',
-        'height',
-        'color',
+        'relation_id',
         'background_color'
     ];
 
     protected $hidden = [
-        'slide_id'
+        'relation_id'
     ];
 }

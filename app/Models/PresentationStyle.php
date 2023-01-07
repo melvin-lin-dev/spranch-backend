@@ -18,6 +18,8 @@ class PresentationStyle extends Model
         'first_slide_background_color',
         'first_slide_part_color',
         'first_slide_part_background_color',
+        'first_slide_part_used_color',
+        'first_slide_part_used_background_color',
     ];
 
     protected $hidden = [

@@ -19,8 +19,10 @@ return new class extends Migration {
             $table->integer('left');
             $table->integer('width')->default(100);
             $table->integer('height')->default(100);
-            $table->string('color', 7)->default('#000000');
+            $table->string('border_color', 7)->default('#000000');
             $table->string('background_color', 7)->default('#FFFFFF');
+            $table->string('part_color', 7)->default('#FFFFFF');
+            $table->string('part_background_color', 7)->default('#46B3E4');
             $table->timestamps();
 
             $table->index(['slide_id']);

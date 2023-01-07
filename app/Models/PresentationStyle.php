@@ -13,7 +13,11 @@ class PresentationStyle extends Model
     protected $fillable = [
         'presentation_id',
         'background_color',
-        'selected_element_color'
+        'selected_element_color',
+        'first_slide_border_color',
+        'first_slide_background_color',
+        'first_slide_part_color',
+        'first_slide_part_background_color',
     ];
 
     protected $hidden = [

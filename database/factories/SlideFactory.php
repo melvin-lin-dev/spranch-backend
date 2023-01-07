@@ -17,8 +17,10 @@ class SlideFactory extends Factory
     public function definition()
     {
         return [
+            'is_first' => false,
             'title' => fake()->words(3, true),
             'description' => fake()->sentence(),
+            'element' => fake()->randomElement(['circle', 'square'])
         ];
     }
 }

@@ -28,10 +28,11 @@ class DatabaseSeeder extends Seeder
 
         // Update Detail for Index 0
         $presentationDetail = Presentation::factory()->create();
-        PresentationStyle::factory()->create(['presentation_id' => $presentation->id]);
-        $slideDetail = Slide::factory()->create(['presentation_id' => $presentationDetail->id]);
+        PresentationStyle::factory()->create(['presentation_id' => $presentationDetail->id]);
+        $slideDetail = Slide::factory()->create(['presentation_id' => $presentationDetail->id, 'is_first' => true]);
         SlideStyle::factory()->create(['slide_id' => $slideDetail->id]);
 
+        $slides[0]->is_first = true;
         $slides[0]->detail_id = $presentationDetail->id;
         $slides[0]->save();
         // =========================

@@ -12,9 +12,10 @@ class Slide extends Model
 
     protected $fillable = [
         'presentation_id',
+        'is_first',
         'title',
         'description',
-        'element_id',
+        'element',
         'detail_id'
     ];
 
@@ -25,16 +26,10 @@ class Slide extends Model
     ];
 
     protected $with = [
-        'element'
 //        'style',
 //        'detail',
 //        'relations'
     ];
-
-    public function element()
-    {
-        return $this->hasOne(Element::class, 'element_id');
-    }
 
     public function style()
     {

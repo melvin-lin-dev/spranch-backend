@@ -13,8 +13,31 @@ class Presentation extends Model
     protected $fillable = [
         'is_main',
         'title',
-        'description'
+        'description',
+        'is_favorite',
+        'logo',
+        'thumbnail'
     ];
+
+    public $hidden = [
+        'logo',
+        'thumbnail'
+    ];
+
+    public $appends = [
+        'logo_src',
+        'thumbnail_src'
+    ];
+
+    public function getLogoSrcAttribute()
+    {
+        return get_design_presentation_logo($this->logo);
+    }
+
+    public function getThumbnailSrcAttribute()
+    {
+        return get_design_presentation_thumbnail($this->thumbnail);
+    }
 
     protected $with = [
         'slides',

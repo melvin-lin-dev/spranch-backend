@@ -9,18 +9,24 @@ class PresentationController extends Controller
 {
     public function index()
     {
-        // TODO: temporary
-        $presentation = Presentation::first();
+        $presentations = Presentation::where('is_main', true)->get();
 
         return response()->json([
-            'data' => $presentation
+            'data' => $presentations
+        ]);
+    }
+    public function getFavoritedPresentations()
+    {
+        $presentations = Presentation::where(['is_main' => true, 'is_favorite' => true])->get();
+
+        return response()->json([
+            'data' => $presentations
         ]);
     }
 
     public function show($presentation)
     {
-        // TODO: temporary
-        $presentation = Presentation::first();
+        $presentation = Presentation::find($presentation);
 
         return response()->json([
             'data' => $presentation

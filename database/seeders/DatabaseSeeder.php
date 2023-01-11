@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         $presentationDetail = Presentation::factory()->create();
         PresentationStyle::factory()->create(['presentation_id' => $presentationDetail->id]);
         $slideDetail = Slide::factory()->create(['presentation_id' => $presentationDetail->id, 'is_first' => true]);
-        SlideStyle::factory()->create(['slide_id' => $slideDetail->id]);
+        SlideStyle::factory()->create(['slide_id' => $slideDetail->id, 'z_index' => $slides->count() + 1]);
 
         $slides[0]->is_first = true;
         $slides[0]->detail_id = $presentationDetail->id;
@@ -38,8 +38,8 @@ class DatabaseSeeder extends Seeder
         // =========================
 
         $slideParts = collect([]);
-        foreach ($slides as $slide) {
-            SlideStyle::factory()->create(['slide_id' => $slide->id]);
+        foreach ($slides as $index => $slide) {
+            SlideStyle::factory()->create(['slide_id' => $slide->id, 'z_index' => $index + 1]);
             $slideParts->push(SlidePart::factory()->create(['slide_id' => $slide->id]));
         }
 

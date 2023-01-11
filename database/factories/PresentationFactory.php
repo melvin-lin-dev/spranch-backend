@@ -18,7 +18,9 @@ class PresentationFactory extends Factory
     {
         return [
             'title' => fake()->words(3, true),
-            'description' => fake()->sentence()
+            'description' => fake()->sentence(),
+            'logo' => 'temporary-logo.png',
+            'thumbnail' => 'temporary-thumbnail.png'
         ];
     }
 }

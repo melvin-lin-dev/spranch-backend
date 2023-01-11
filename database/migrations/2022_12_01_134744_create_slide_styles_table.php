@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->string('part_background_color', 7)->default('#46B3E4');
             $table->string('part_used_color', 7)->default('#000000');
             $table->string('part_used_background_color', 7)->default('#FFFFFF');
+            $table->integer('z_index');
             $table->timestamps();
 
             $table->index(['slide_id']);

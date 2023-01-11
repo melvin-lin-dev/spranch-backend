@@ -25,6 +25,7 @@ use App\Http\Controllers\RelationController;
 
 Route::prefix('v1')->group(function () {
     Route::resource('presentations', PresentationController::class);
+    Route::get('favorited-presentations', [PresentationController::class, 'getFavoritedPresentations']);
     Route::resource('slides', SlideController::class);
     Route::resource('relations', RelationController::class);
 });

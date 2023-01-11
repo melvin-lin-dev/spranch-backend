@@ -22,6 +22,7 @@ class SlideStyle extends Model
         'part_background_color',
         'part_used_color',
         'part_used_background_color',
+        'z_index'
     ];
 
     protected $hidden = [

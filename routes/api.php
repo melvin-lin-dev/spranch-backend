@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\ElementController;
+use \App\Http\Controllers\AuthController;
 use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\RelationController;
@@ -24,7 +24,19 @@ use App\Http\Controllers\RelationController;
 //});
 
 Route::prefix('v1')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('logout', [AuthController::class, 'logout']);
+    });
+
     Route::resource('presentations', PresentationController::class);
-    Route::resource('slides', SlideController::class);
+    Route::get('favorited-presentations', [PresentationController::class, 'getFavoritedPresentations']);
+
+    Route::prefix('presentations')->group(function () {
+        Route::prefix('{presentation}')->group(function () {
+            Route::resource('slides', SlideController::class);
+        });
+    });
     Route::resource('relations', RelationController::class);
 });

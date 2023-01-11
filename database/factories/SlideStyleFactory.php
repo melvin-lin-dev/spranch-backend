@@ -18,9 +18,7 @@ class SlideStyleFactory extends Factory
     {
         return [
             'top' => fake()->numberBetween(10, 600),
-            'left' => fake()->numberBetween(10, 1000),
-            'color' => $this->getRandomColor(),
-            'background_color' => $this->getRandomColor()
+            'left' => fake()->numberBetween(10, 1000)
         ];
     }
 

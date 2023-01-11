@@ -108,4 +108,20 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+        |--------------------------------------------------------------------------
+        | Hashing Tokens
+        |--------------------------------------------------------------------------
+        |
+        | API tokens are stored in your database as plain-text. If you would like
+        | to hash your API tokens using SHA-256 hashing, you may set the hash
+        | option of your api guard configuration to true.
+        |
+    */
+
+//    'api' => [
+//        'driver' => 'token',
+//        'provider' => 'users',
+//        'hash' => true,
+//    ],
 ];

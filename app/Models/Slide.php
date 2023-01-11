@@ -26,7 +26,7 @@ class Slide extends Model
     ];
 
     protected $with = [
-//        'style',
+        'style',
 //        'detail',
 //        'relations'
     ];

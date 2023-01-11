@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->uuid('presentation_id');
             $table->boolean('is_first');
-            $table->string('title', 100);
-            $table->string('description', 255);
+            $table->string('title', 100)->nullable();
+            $table->text('description')->nullable();
             $table->string('element', 20);
             $table->uuid('detail_id')->nullable();
             $table->timestamps();

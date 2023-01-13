@@ -11,6 +11,7 @@ class Relation extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'presentation_id',
         'slide_part1_id',
         'slide_part2_id',
         'title1',

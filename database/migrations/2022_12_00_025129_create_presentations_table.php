@@ -14,13 +14,17 @@ return new class extends Migration {
     {
         Schema::create('presentations', function (Blueprint $table) {
             $table->uuid('id')->primary();
+//            $table->uuid('user_id');
             $table->boolean('is_main')->default(false);
-            $table->string('title', 100);
-            $table->string('description', 255);
+            $table->string('title', 100)->nullable();
+            $table->text('description')->nullable();
             $table->boolean('is_favorite')->default(false);
-            $table->string('logo', 100);
-            $table->string('thumbnail', 100);
+            $table->string('logo', 100)->nullable();
+            $table->string('thumbnail', 100)->nullable();
             $table->timestamps();
+
+            $table->index(['user_id']);
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

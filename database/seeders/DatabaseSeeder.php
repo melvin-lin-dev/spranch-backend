@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
         $slideParts2->push(...$firstValue);
         for ($i = 0; $i < $slideParts1->count(); $i++) {
             $relation = Relation::factory()->create([
+                'presentation_id' => $presentation->id,
                 'slide_part1_id' => $slideParts1[$i],
                 'slide_part2_id' => $slideParts2[$i],
             ]);

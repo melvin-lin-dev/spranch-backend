@@ -19,34 +19,49 @@ class RelationController extends Controller
 
     public function store(Request $r, $presentation)
     {
-        $data = $r->only(['slide1_id', 'slide2_id', 'number1', 'number2']);
+        $data = $r->only(['id', 'style_id', 'slide_part1_id', 'slide_part2_id', 'slide1_id', 'slide2_id', 'number1', 'number2']);
         $validator = Validator::make($data, [
+            'id' => ['required', 'uuid', 'unique:relations'],
+            'style_id' => ['required', 'uuid', 'unique:relation_styles,id'],
+            'style_part1_id' => ['required', 'uuid', 'unique:slide_parts,id'],
+            'style_part2_id' => ['required', 'uuid', 'unique:slide_parts,id'],
             'slide1_id' => ['required', 'exists:slides,id'],
             'slide2_id' => ['required', 'exists:slides,id'],
-            'number1' => ['required', 'integer', 'exists:slides,id'],
-            'number2' => ['required', 'integer', 'exists:slides,id'],
+            'number1' => ['required', 'integer'],
+            'number2' => ['required', 'integer'],
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         } else {
-            $slidePart1 = SlidePart::create([
-                'slide_id' => $data['slide1_id'],
-                'number' => $data['number1']
-            ]);
+            $slidePart1 = SlidePart::find($data['slide_part1_id']);
+            if ($slidePart1) {
+                SlidePart::create([
+                    'id' => $data['slide_part1_id'],
+                    'slide_id' => $data['slide1_id'],
+                    'number' => $data['number1']
+                ]);
+            }
 
-            $slidePart2 = SlidePart::create([
-                'slide_id' => $data['slide2_id'],
-                'number' => $data['number2']
-            ]);
+            $slidePart2 = SlidePart::find($data['slide_part2_id'])->first();
+            if ($slidePart2) {
+                SlidePart::create([
+                    'id' => $data['slide_part2_id'],
+                    'slide_id' => $data['slide2_id'],
+                    'number' => $data['number2']
+                ]);
+            }
 
             $relation = Relation::create([
-                'slide_part1_id' => $slidePart1->id,
-                'slide_part2_id' => $slidePart2->id
+                'id' => $data['id'],
+                'presentation_id' => $presentation,
+                'slide_part1_id' => $data['slide_part1_id'],
+                'slide_part2_id' => $data['slide_part2_id']
             ]);
 
             RelationStyle::create([
-                'relation_id' => $relation->id,
+                'id' => $data['style_id'],
+                'relation_id' => $data['id'],
             ]);
 
             return response()->json(['data' => $relation]);
@@ -63,11 +78,34 @@ class RelationController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         } else {
-            RelationStyle::where('relation_id', $relation)
+            RelationStyle::where('relation_id', $relation)->first()
                 ->fill($data)
                 ->save();
 
             return response()->json(['message' => 'Update Style Success']);
         }
+    }
+
+    public function destroy($presentation, $relation)
+    {
+//        $relation = Relation::find($relation);
+//
+//        $slidePart1 = SlidePart::find($relation->slide_part1_id);
+//        $slidePart2 = SlidePart::find($relation->slide_part2_id);
+//
+//        $slideParts1 = Relation::where('slide_part1_id', $slidePart1->id)->orWhere('slide_part2_id', $slidePart1->id)->get();
+//        $slideParts2 = Relation::where('slide_part1_id', $slidePart2->id)->orWhere('slide_part2_id', $slidePart2->id)->get();
+//
+//        if ($slideParts1->count() === 1) {
+//            $slidePart1->delete();
+//        }
+//
+//        if ($slideParts2->count() === 1) {
+//            $slidePart2->delete();
+//        }
+
+        Relation::find($relation)->delete();
+
+        return response()->json(['message' => 'Delete Relation Success!']);
     }
 }

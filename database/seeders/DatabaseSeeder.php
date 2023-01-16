@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $slides = Slide::factory(5)->create(['presentation_id' => $presentation->id]);
 
         // Update Detail for Index 0
-        $presentationDetail = Presentation::factory()->create();
+        $presentationDetail = Presentation::factory()->create(['is_main' => false]);
         PresentationStyle::factory()->create(['presentation_id' => $presentationDetail->id]);
         $slideDetail = Slide::factory()->create(['presentation_id' => $presentationDetail->id, 'is_first' => true]);
         SlideStyle::factory()->create(['slide_id' => $slideDetail->id, 'z_index' => $slides->count() + 1]);

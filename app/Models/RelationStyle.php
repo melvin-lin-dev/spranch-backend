@@ -11,6 +11,7 @@ class RelationStyle extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
         'relation_id',
         'background_color'
     ];

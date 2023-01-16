@@ -21,9 +21,9 @@ if (!function_exists('get_unique_file_name')) {
 }
 
 if (!function_exists('get_design_presentation_logo_path')) {
-    function get_design_presentation_logo_path()
+    function get_design_presentation_logo_path($isUpload = false)
     {
-        return config('app.url') . config('asset.design.presentation.logo');
+        return ($isUpload ? public_path('assets') : config('app.url')) . config('asset.design.presentation.logo');
     }
 }
 
@@ -35,9 +35,9 @@ if (!function_exists('get_design_presentation_logo')) {
 }
 
 if (!function_exists('get_design_presentation_thumbnail_path')) {
-    function get_design_presentation_thumbnail_path()
+    function get_design_presentation_thumbnail_path($isUpload = false)
     {
-        return config('app.url') . config('asset.design.presentation.thumbnail');
+        return ($isUpload ? public_path('assets') : config('app.url')) . config('asset.design.presentation.thumbnail');
     }
 }
 

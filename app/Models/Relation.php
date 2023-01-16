@@ -11,6 +11,7 @@ class Relation extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
         'presentation_id',
         'slide_part1_id',
         'slide_part2_id',
@@ -19,6 +20,7 @@ class Relation extends Model
     ];
 
     protected $hidden = [
+        'presentation_id',
         'slide_part1_id',
         'slide_part2_id'
     ];

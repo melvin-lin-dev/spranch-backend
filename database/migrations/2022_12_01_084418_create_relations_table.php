@@ -22,9 +22,9 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->index(['presentation_id', 'slide_part1_id', 'slide_part2_id']);
-            $table->foreign('presentation_id')->references('id')->on('presentations');
-            $table->foreign('slide_part1_id')->references('id')->on('slide_parts');
-            $table->foreign('slide_part2_id')->references('id')->on('slide_parts');
+            $table->foreign('presentation_id')->references('id')->on('presentations')->cascadeOnDelete();
+            $table->foreign('slide_part1_id')->references('id')->on('slide_parts')->cascadeOnDelete();
+            $table->foreign('slide_part2_id')->references('id')->on('slide_parts')->cascadeOnDelete();
         });
     }
 

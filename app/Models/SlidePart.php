@@ -11,6 +11,7 @@ class SlidePart extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
         'slide_id',
         'number'
     ];

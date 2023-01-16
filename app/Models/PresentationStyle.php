@@ -11,6 +11,7 @@ class PresentationStyle extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
         'presentation_id',
         'background_color',
         'selected_element_color',

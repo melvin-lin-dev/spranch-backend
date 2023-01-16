@@ -11,6 +11,7 @@ class Presentation extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
         'is_main',
         'title',
         'description',
@@ -31,12 +32,16 @@ class Presentation extends Model
 
     public function getLogoSrcAttribute()
     {
-        return get_design_presentation_logo($this->logo);
+        if ($this->logo) {
+            return get_design_presentation_logo($this->logo);
+        }
     }
 
     public function getThumbnailSrcAttribute()
     {
-        return get_design_presentation_thumbnail($this->thumbnail);
+        if ($this->thumbnail) {
+            return get_design_presentation_thumbnail($this->thumbnail);
+        }
     }
 
     protected $with = [

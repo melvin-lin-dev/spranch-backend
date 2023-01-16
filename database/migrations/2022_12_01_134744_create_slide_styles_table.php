@@ -29,7 +29,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->index(['slide_id']);
-            $table->foreign('slide_id')->references('id')->on('slides');
+            $table->foreign('slide_id')->references('id')->on('slides')->cascadeOnDelete();
         });
     }
 

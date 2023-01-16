@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['relation_id']);
-            $table->foreign('relation_id')->references('id')->on('relations');
+            $table->foreign('relation_id')->references('id')->on('relations')->cascadeOnDelete();
         });
     }
 

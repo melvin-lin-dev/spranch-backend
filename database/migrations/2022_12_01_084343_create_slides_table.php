@@ -23,8 +23,8 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->index(['presentation_id', 'detail_id']);
-            $table->foreign('presentation_id')->references('id')->on('presentations');
-            $table->foreign('detail_id')->references('id')->on('presentations');
+            $table->foreign('presentation_id')->references('id')->on('presentations')->cascadeOnDelete();
+            $table->foreign('detail_id')->references('id')->on('presentations')->cascadeOnDelete();
         });
     }
 

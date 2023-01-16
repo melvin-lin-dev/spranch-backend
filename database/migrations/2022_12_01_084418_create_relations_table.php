@@ -14,15 +14,17 @@ return new class extends Migration {
     {
         Schema::create('relations', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('presentation_id');
             $table->uuid('slide_part1_id');
             $table->uuid('slide_part2_id');
             $table->string('title1', 100)->nullable();
             $table->string('title2', 100)->nullable();
             $table->timestamps();
 
-            $table->index(['slide_part1_id', 'slide_part2_id']);
-            $table->foreign('slide_part1_id')->references('id')->on('slide_parts');
-            $table->foreign('slide_part2_id')->references('id')->on('slide_parts');
+            $table->index(['presentation_id', 'slide_part1_id', 'slide_part2_id']);
+            $table->foreign('presentation_id')->references('id')->on('presentations')->cascadeOnDelete();
+            $table->foreign('slide_part1_id')->references('id')->on('slide_parts')->cascadeOnDelete();
+            $table->foreign('slide_part2_id')->references('id')->on('slide_parts')->cascadeOnDelete();
         });
     }
 

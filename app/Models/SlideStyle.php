@@ -11,6 +11,7 @@ class SlideStyle extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
         'slide_id',
         'top',
         'left',

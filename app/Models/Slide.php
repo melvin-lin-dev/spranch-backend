@@ -11,6 +11,7 @@ class Slide extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
         'presentation_id',
         'is_first',
         'title',
@@ -20,8 +21,6 @@ class Slide extends Model
     ];
 
     public $hidden = [
-        'presentation_id',
-        'slide_id',
         'detail_id'
     ];
 

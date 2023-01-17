@@ -15,9 +15,9 @@ class AuthController extends Controller
     {
         $data = $r->only(['email', 'password', 'password_confirmation']);
         $validator = Validator::make($data, [
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:6'],
-            'password_confirmation' => ['required', 'min:6', 'same:password']
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:8'],
+            'password_confirmation' => ['required', 'min:8', 'same:password']
         ]);
 
         if ($validator->fails()) {
@@ -32,20 +32,32 @@ class AuthController extends Controller
 
     public function login(Request $r)
     {
-        if (Auth::attempt(['email' => $r->email, 'password' => $r->password])) {
-            $user = Auth::user();
-            $success['token'] = $user->createToken($user['email'])->plainTextToken;
-            $success['email'] = $user['email'];
+        $data = $r->only(['email', 'password']);
+        $validator = Validator::make($data, [
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-            return response()->json(['data' => $success]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
         } else {
-            return response()->json(['message' => 'Email/Password Is Invalid!']);
+            if (Auth::attempt(['email' => $r->email, 'password' => $r->password])) {
+                $user = Auth::user();
+
+                $success['token'] = $user->createToken($user['email'])->plainTextToken;
+
+                return response()->json(['data' => $success]);
+            } else {
+                return response()->json(['message' => 'Incorrect Email Or Password!'], 401);
+            }
         }
     }
 
     public function logout()
     {
         Auth::user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logout Success!']);
     }
 
     public function verifyMail()

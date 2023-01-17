@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use \App\Http\Controllers\AuthController;
+use \App\Http\Controllers\UserController;
 use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\RelationController;
@@ -26,8 +27,16 @@ use App\Http\Controllers\RelationController;
 Route::prefix('v1')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
-//    Route::middleware('auth:sanctum')->group(function () {
+
+    Route::middleware('auth:sanctum')->group(function () {
         Route::get('logout', [AuthController::class, 'logout']);
+
+        Route::prefix('users')->group(function(){
+            Route::get('me', [UserController::class, 'getUser']);
+        });
+    });
+
+//    Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('favorited-presentations', [PresentationController::class, 'getFavoritedPresentations']);
 
@@ -39,8 +48,8 @@ Route::prefix('v1')->group(function () {
                 Route::patch('style', [PresentationController::class, 'updateStyle']);
 
                 Route::resource('slides', SlideController::class);
-                Route::prefix('slides')->group(function(){
-                    Route::prefix('{slide}')->group(function(){
+                Route::prefix('slides')->group(function () {
+                    Route::prefix('{slide}')->group(function () {
                         Route::post('detail', [SlideController::class, 'createDetail']);
 
                         Route::patch('position', [SlideController::class, 'updatePosition']);
@@ -52,8 +61,8 @@ Route::prefix('v1')->group(function () {
                 });
 
                 Route::resource('relations', RelationController::class);
-                Route::prefix('relations')->group(function(){
-                    Route::prefix('{relation}')->group(function(){
+                Route::prefix('relations')->group(function () {
+                    Route::prefix('{relation}')->group(function () {
                         Route::patch('style', [RelationController::class, 'updateStyle']);
                     });
                 });

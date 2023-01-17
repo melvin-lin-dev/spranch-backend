@@ -16,10 +16,12 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
+        'email_verified_at'
     ];
 
     protected $hidden = [
         'password',
+        'email_verified_at'
     ];
 
     protected $casts = [

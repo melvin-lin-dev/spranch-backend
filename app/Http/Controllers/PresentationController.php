@@ -32,6 +32,7 @@ class PresentationController extends Controller
     public function show($presentation)
     {
         $presentation = Presentation::find($presentation);
+        $presentation->touch();
 
         return response()->json([
             'data' => $presentation
@@ -60,8 +61,7 @@ class PresentationController extends Controller
 
             PresentationStyle::create([
                 'id' => $data['style_id'],
-                'presentation_id' => $data['id'],
-                'relation_id' => $presentation->id,
+                'presentation_id' => $data['id']
             ]);
 
             return response()->json(['data' => $presentation]);

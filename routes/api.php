@@ -41,9 +41,13 @@ Route::prefix('v1')->group(function () {
                 Route::resource('slides', SlideController::class);
                 Route::prefix('slides')->group(function(){
                     Route::prefix('{slide}')->group(function(){
+                        Route::post('detail', [SlideController::class, 'createDetail']);
+
                         Route::patch('position', [SlideController::class, 'updatePosition']);
                         Route::patch('style', [SlideController::class, 'updateStyle']);
                         Route::patch('z-index', [SlideController::class, 'updateZIndex']);
+
+                        Route::delete('detail', [SlideController::class, 'deleteDetail']);
                     });
                 });
 

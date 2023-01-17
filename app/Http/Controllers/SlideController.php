@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Presentation;
+use App\Models\PresentationStyle;
 use App\Models\Relation;
 use App\Models\Slide;
 use App\Models\SlidePart;
@@ -53,14 +55,44 @@ class SlideController extends Controller
         }
     }
 
+    public function createDetail(Request $r, $presentation, $slide)
+    {
+        $data = $r->only(['id', 'style_id', 'is_main', 'is_favorite']);
+        $validator = Validator::make($data, [
+            'id' => ['required', 'uuid', 'unique:presentations'],
+            'style_id' => ['required', 'uuid', 'unique:presentation_styles,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        } else {
+            Presentation::create([
+                'id' => $data['id'],
+                'is_main' => false,
+                'is_favorite' => false
+            ]);
+
+            PresentationStyle::create([
+                'id' => $data['style_id'],
+                'presentation_id' => $data['id']
+            ]);
+
+            Slide::find($slide)
+                ->fill(['detail_id' => $data['id']])
+                ->save();
+
+            return response()->json(['message' => 'Create Detail Success']);
+        }
+    }
+
     public function update(Request $r, $presentation, $slide)
     {
         $validator = Validator::make($r->only(['title', 'description', 'relations']), [
             'title' => ['required', 'min:5'],
             'description' => ['required', 'min:10'],
             'relations' => ['array'],
-            'relations.*.id' => ['required', 'exists:relations,id'],
-            'relations.*.slide_part_id' => ['required', 'exists:relations,slide_part_id,' . $presentation . ',id'],
+            'relations.*.id' => ['required', 'uuid', 'exists:relations,id'],
+            'relations.*.slide_part_id' => ['required', 'uuid', 'exists:relations,slide_part_id,' . $presentation . ',id'],
             'relations.*.title' => ['required', 'min:3'],
         ]);
 
@@ -212,6 +244,15 @@ class SlideController extends Controller
 //        }
 
         Slide::find($slide)->delete();
+
+        return response()->json(['message' => 'Delete Slide Success!']);
+    }
+
+    public function deleteDetail($presentation, $slide)
+    {
+        Slide::find($slide)->fill(['detail_id' => null])->save();
+
+//        Presentation::find($presentation)->touch();
 
         return response()->json(['message' => 'Delete Slide Success!']);
     }

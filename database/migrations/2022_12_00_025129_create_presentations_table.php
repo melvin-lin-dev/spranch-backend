@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->boolean('is_main');
             $table->string('title', 100)->nullable();
             $table->text('description')->nullable();
-            $table->boolean('is_favorite')->default(false);
+            $table->boolean('is_favorite');
             $table->string('logo', 100)->nullable();
             $table->string('thumbnail', 100)->nullable();
             $table->timestamps();

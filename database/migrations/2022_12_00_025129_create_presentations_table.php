@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('presentations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-//            $table->uuid('user_id');
+            $table->uuid('user_id');
             $table->boolean('is_main');
             $table->string('title', 100)->nullable();
             $table->text('description')->nullable();
@@ -23,8 +23,8 @@ return new class extends Migration {
             $table->string('thumbnail', 100)->nullable();
             $table->timestamps();
 
-//            $table->index(['user_id']);
-//            $table->foreign('user_id')->references('id')->on('users');
+            $table->index(['user_id']);
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

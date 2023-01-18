@@ -10,6 +10,7 @@ use App\Models\RelationStyle;
 use App\Models\Slide;
 use App\Models\SlidePart;
 use App\Models\SlideStyle;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,13 +22,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $presentation = Presentation::factory()->create(['is_main' => true]);
+        $user = User::factory()->create(['email' => 'tes@gmail.com', 'password' => bcrypt('tes')]);
+        $user2 = User::factory()->create(['email' => 'tes1@gmail.com', 'password' => bcrypt('tes')]);
+
+        $presentation = Presentation::factory()->create(['user_id' => $user->id, 'is_main' => true]);
         PresentationStyle::factory()->create(['presentation_id' => $presentation->id]);
+
+        // For second user
+        $presentation2 = Presentation::factory()->create(['user_id' => $user2->id, 'is_main' => true]);
+        PresentationStyle::factory()->create(['presentation_id' => $presentation2->id]);
+        // ---------------
 
         $slides = Slide::factory(5)->create(['presentation_id' => $presentation->id]);
 
         // Update Detail for Index 0
-        $presentationDetail = Presentation::factory()->create(['is_main' => false]);
+        $presentationDetail = Presentation::factory()->create(['user_id' => $user->id, 'is_main' => false]);
         PresentationStyle::factory()->create(['presentation_id' => $presentationDetail->id]);
         $slideDetail = Slide::factory()->create(['presentation_id' => $presentationDetail->id, 'is_first' => true]);
         SlideStyle::factory()->create(['slide_id' => $slideDetail->id, 'z_index' => $slides->count() + 1]);

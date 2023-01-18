@@ -31,23 +31,22 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('logout', [AuthController::class, 'logout']);
 
-        Route::prefix('users')->group(function(){
+        Route::prefix('users')->group(function () {
             Route::get('me', [UserController::class, 'getUser']);
         });
-    });
 
-//    Route::middleware('auth:sanctum')->group(function () {
+        Route::apiResource('presentations', PresentationController::class)->only(['index', 'store']);
+        Route::apiResource('presentations', PresentationController::class)->except(['index', 'store'])->middleware('presentation.auth');
 
         Route::get('favorited-presentations', [PresentationController::class, 'getFavoritedPresentations']);
 
-        Route::resource('presentations', PresentationController::class);
         Route::prefix('presentations')->group(function () {
-            Route::prefix('{presentation}')->group(function () {
+            Route::prefix('{presentation}')->middleware('presentation.auth')->group(function () {
                 Route::patch('favorite', [PresentationController::class, 'updateFavorite']);
                 Route::patch('images', [PresentationController::class, 'updateImages']);
                 Route::patch('style', [PresentationController::class, 'updateStyle']);
 
-                Route::resource('slides', SlideController::class);
+                Route::apiResource('slides', SlideController::class);
                 Route::prefix('slides')->group(function () {
                     Route::prefix('{slide}')->group(function () {
                         Route::post('detail', [SlideController::class, 'createDetail']);
@@ -68,5 +67,5 @@ Route::prefix('v1')->group(function () {
                 });
             });
         });
-//    });
+    });
 });

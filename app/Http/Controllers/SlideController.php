@@ -9,6 +9,7 @@ use App\Models\Slide;
 use App\Models\SlidePart;
 use App\Models\SlideStyle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SlideController extends Controller
@@ -68,6 +69,7 @@ class SlideController extends Controller
         } else {
             Presentation::create([
                 'id' => $data['id'],
+                'user_id' => Auth::user()['id'],
                 'is_main' => false,
                 'is_favorite' => false
             ]);

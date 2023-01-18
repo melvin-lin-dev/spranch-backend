@@ -12,6 +12,7 @@ class Presentation extends Model
 
     protected $fillable = [
         'id',
+        'user_id',
         'is_main',
         'title',
         'description',
@@ -21,6 +22,7 @@ class Presentation extends Model
     ];
 
     public $hidden = [
+        'user_id',
         'logo',
         'thumbnail'
     ];

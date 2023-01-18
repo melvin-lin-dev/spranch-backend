@@ -58,7 +58,6 @@ class PresentationController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         } else {
-//            $data['user_id'] = Auth::user()['id'];
             $presentation = Presentation::create([
                 'id' => $data['id'],
                 'user_id' => Auth::user()['id'],

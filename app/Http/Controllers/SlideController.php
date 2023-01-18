@@ -49,7 +49,7 @@ class SlideController extends Controller
                 'slide_id' => $data['id'],
                 'top' => $data['top'],
                 'left' => $data['left'],
-                'z_index' => $slides[0]->style->z_index + 1
+                'z_index' => $slides->count() ? $slides[0]->style->z_index + 1 : 1
             ]);
 
             return response()->json(['data' => $slide]);
@@ -223,29 +223,31 @@ class SlideController extends Controller
 
     public function destroy($presentation, $slide)
     {
-//        $slide = Slide::find($slide)->with('relations');
-//
-//        foreach ($slide->relations as $slidePart) {
-//            $relation = Relation::where('slide_part1_id', $slidePart->id)->orWhere('slide_part2_id', $slidePart->id)->first();
-//
-//            $slidePart1 = SlidePart::find($relation->slide_part1_id);
-//            $slidePart2 = SlidePart::find($relation->slide_part2_id);
-//
-//            $slideParts1 = Relation::where('slide_part1_id', $slidePart1->id)->orWhere('slide_part2_id', $slidePart1->id)->get();
-//            $slideParts2 = Relation::where('slide_part1_id', $slidePart2->id)->orWhere('slide_part2_id', $slidePart2->id)->get();
-//
-//            if ($slideParts1->count() === 1) {
-//                $slidePart1->delete();
-//            }
-//
-//            if ($slideParts2->count() === 1) {
-//                $slidePart2->delete();
-//            }
-//
-//            $relation->delete();
-//        }
+        $slide = Slide::with('relations')->find($slide);
 
-        Slide::find($slide)->delete();
+        foreach ($slide->relations as $slidePart) {
+            $relations = Relation::where('slide_part1_id', $slidePart->id)->orWhere('slide_part2_id', $slidePart->id)->get();
+
+            foreach ($relations as $relation) {
+                $slidePart1 = SlidePart::find($relation->slide_part1_id);
+                $slidePart2 = SlidePart::find($relation->slide_part2_id);
+
+                $slideParts1 = Relation::where('slide_part1_id', $slidePart1->id)->orWhere('slide_part2_id', $slidePart1->id)->get();
+                $slideParts2 = Relation::where('slide_part1_id', $slidePart2->id)->orWhere('slide_part2_id', $slidePart2->id)->get();
+
+                $relation->delete();
+
+                if ($slideParts1->count() === 1) {
+                    $slidePart1->delete();
+                }
+
+                if ($slideParts2->count() === 1) {
+                    $slidePart2->delete();
+                }
+            }
+        }
+
+        $slide->delete();
 
         return response()->json(['message' => 'Delete Slide Success!']);
     }

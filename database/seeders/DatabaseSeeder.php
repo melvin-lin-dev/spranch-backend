@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::factory()->create(['email' => 'tes@gmail.com', 'password' => bcrypt('tes')]);
+        $user = User::factory()->create(['email' => 'tutorial@gmail.com', 'password' => bcrypt('tes')]);
         $user2 = User::factory()->create(['email' => 'tes1@gmail.com', 'password' => bcrypt('tes')]);
 
         $presentation = Presentation::factory()->create(['user_id' => $user->id, 'is_main' => true]);

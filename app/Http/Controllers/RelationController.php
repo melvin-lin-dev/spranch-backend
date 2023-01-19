@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Presentation;
 use App\Models\Relation;
 use App\Models\RelationStyle;
 use App\Models\SlidePart;
@@ -12,8 +13,27 @@ class RelationController extends Controller
 {
     public function index($presentation)
     {
+        $relations = Relation::where('presentation_id', $presentation)->get();
+
+        $presentations = collect([Presentation::find($presentation)]);
+
+        do {
+            foreach ($presentations as $curPresentation) {
+                foreach ($curPresentation->slides as $slide) {
+                    if ($slide->detail) {
+                        $presentations->push($slide->detail);
+
+                        $curRelations = Relation::where('presentation_id', $slide->detail->id)->get();
+                        $relations = [...$relations, ...$curRelations];
+                    }
+                }
+
+                $presentations->shift();
+            }
+        } while ($presentations->count());
+
         return response()->json([
-            'data' => Relation::where('presentation_id', $presentation)->get()
+            'data' => $relations
         ]);
     }
 
@@ -35,7 +55,7 @@ class RelationController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         } else {
             $slidePart1 = SlidePart::find($data['slide_part1_id']);
-            if ($slidePart1) {
+            if (!$slidePart1) {
                 SlidePart::create([
                     'id' => $data['slide_part1_id'],
                     'slide_id' => $data['slide1_id'],
@@ -44,7 +64,7 @@ class RelationController extends Controller
             }
 
             $slidePart2 = SlidePart::find($data['slide_part2_id']);
-            if ($slidePart2) {
+            if (!$slidePart2) {
                 SlidePart::create([
                     'id' => $data['slide_part2_id'],
                     'slide_id' => $data['slide2_id'],

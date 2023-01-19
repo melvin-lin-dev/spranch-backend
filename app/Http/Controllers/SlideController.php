@@ -90,8 +90,8 @@ class SlideController extends Controller
     public function update(Request $r, $presentation, $slide)
     {
         $validator = Validator::make($r->only(['title', 'description', 'relations']), [
-            'title' => ['required', 'min:5'],
-            'description' => ['required', 'min:10'],
+//            'title' => ['required', 'min:5'],
+//            'description' => ['required', 'min:10'],
             'relations' => ['array'],
             'relations.*.id' => ['required', 'uuid', 'exists:relations,id'],
             'relations.*.slide_part_id' => ['required', 'uuid', 'exists:relations,slide_part_id,' . $presentation . ',id'],

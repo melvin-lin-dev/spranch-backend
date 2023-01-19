@@ -78,8 +78,8 @@ class PresentationController extends Controller
     {
         $data = $r->only(['title', 'description']);
         $validator = Validator::make($data, [
-            'title' => ['required', 'min:5'],
-            'description' => ['required', 'min:10']
+//            'title' => ['required', 'min:5'],
+//            'description' => ['required', 'min:10']
         ]);
 
         if ($validator->fails()) {

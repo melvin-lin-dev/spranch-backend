@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Presentation;
 use App\Models\PresentationStyle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PresentationController extends Controller
 {
     public function index()
     {
-        // TODO: USER ID
-        $presentations = Presentation::where(['is_main' => true])->orderBy('updated_at', 'desc')->get();
+        $presentations = Presentation::where([
+            'user_id' => Auth::user()['id'],
+            'is_main' => true
+        ])->orderBy('updated_at', 'desc')->get();
 
         return response()->json([
             'data' => $presentations
@@ -21,8 +24,11 @@ class PresentationController extends Controller
 
     public function getFavoritedPresentations()
     {
-        // TODO: USER ID
-        $presentations = Presentation::where(['is_main' => true, 'is_favorite' => true])->orderBy('created_at', 'desc')->get();
+        $presentations = Presentation::where([
+            'user_id' => Auth::user()['id'],
+            'is_main' => true,
+            'is_favorite' => true
+        ])->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'data' => $presentations
@@ -32,6 +38,7 @@ class PresentationController extends Controller
     public function show($presentation)
     {
         $presentation = Presentation::find($presentation);
+        $presentation->touch();
 
         return response()->json([
             'data' => $presentation
@@ -51,17 +58,16 @@ class PresentationController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         } else {
-//            $data['user_id'] = Auth::user()['id'];
             $presentation = Presentation::create([
                 'id' => $data['id'],
+                'user_id' => Auth::user()['id'],
                 'is_main' => $data['is_main'],
                 'is_favorite' => $data['is_favorite']
             ]);
 
             PresentationStyle::create([
                 'id' => $data['style_id'],
-                'presentation_id' => $data['id'],
-                'relation_id' => $presentation->id,
+                'presentation_id' => $data['id']
             ]);
 
             return response()->json(['data' => $presentation]);
@@ -72,8 +78,8 @@ class PresentationController extends Controller
     {
         $data = $r->only(['title', 'description']);
         $validator = Validator::make($data, [
-            'title' => ['required', 'min:5'],
-            'description' => ['required', 'min:10']
+//            'title' => ['required', 'min:5'],
+//            'description' => ['required', 'min:10']
         ]);
 
         if ($validator->fails()) {

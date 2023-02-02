@@ -11,11 +11,19 @@ class SlideStyle extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
         'slide_id',
         'top',
         'left',
-        'color',
-        'background_color'
+        'width',
+        'height',
+        'border_color',
+        'background_color',
+        'part_color',
+        'part_background_color',
+        'part_used_color',
+        'part_used_background_color',
+        'z_index'
     ];
 
     protected $hidden = [

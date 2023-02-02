@@ -18,17 +18,16 @@ class SlideStyleFactory extends Factory
     {
         return [
             'top' => fake()->numberBetween(10, 600),
-            'left' => fake()->numberBetween(10, 1000),
-            'color' => $this->getRandomColor(),
-            'background_color' => $this->getRandomColor()
+            'left' => fake()->numberBetween(10, 1000)
         ];
     }
 
     private function getRandomColor()
     {
-        $r = fake()->numberBetween(0, 255);
-        $g = fake()->numberBetween(0, 255);
-        $b = fake()->numberBetween(0, 255);
-        return "rgb($r, $g, $b)";
+//        $r = fake()->numberBetween(0, 255);
+//        $g = fake()->numberBetween(0, 255);
+//        $b = fake()->numberBetween(0, 255);
+//        return "rgb($r, $g, $b)";
+        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 }

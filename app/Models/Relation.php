@@ -11,6 +11,8 @@ class Relation extends Model
     use HasUuids, HasFactory;
 
     protected $fillable = [
+        'id',
+        'presentation_id',
         'slide_part1_id',
         'slide_part2_id',
         'title1',
@@ -18,13 +20,15 @@ class Relation extends Model
     ];
 
     protected $hidden = [
+        'presentation_id',
         'slide_part1_id',
         'slide_part2_id'
     ];
 
     protected $with = [
         'slide_part1',
-        'slide_part2'
+        'slide_part2',
+        'style'
     ];
 
     public function slide_part1()
@@ -35,5 +39,10 @@ class Relation extends Model
     public function slide_part2()
     {
         return $this->belongsTo(SlidePart::class, 'slide_part2_id')->with('slide');
+    }
+
+    public function style()
+    {
+        return $this->hasOne(RelationStyle::class, 'relation_id');
     }
 }

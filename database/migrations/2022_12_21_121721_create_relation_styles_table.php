@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('slide_parts', function (Blueprint $table) {
+        Schema::create('relation_styles', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('slide_id');
-            $table->unsignedTinyInteger('number');
+            $table->uuid('relation_id');
+            $table->string('background_color', 7)->default('#000000');
             $table->timestamps();
 
-            $table->index(['slide_id']);
-            $table->foreign('slide_id')->references('id')->on('slides')->cascadeOnDelete();
+            $table->index(['relation_id']);
+            $table->foreign('relation_id')->references('id')->on('relations')->cascadeOnDelete();
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slide_parts');
+        Schema::dropIfExists('relation_styles');
     }
 };

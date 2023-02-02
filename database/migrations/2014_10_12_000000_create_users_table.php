@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('slide_parts', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('slide_id');
-            $table->unsignedTinyInteger('number');
+//            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
-
-            $table->index(['slide_id']);
-            $table->foreign('slide_id')->references('id')->on('slides')->cascadeOnDelete();
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slide_parts');
+        Schema::dropIfExists('users');
     }
 };

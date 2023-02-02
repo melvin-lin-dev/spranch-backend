@@ -15,14 +15,16 @@ return new class extends Migration {
         Schema::create('slides', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('presentation_id');
-            $table->string('title', 100);
-            $table->string('description', 255);
+            $table->boolean('is_first');
+            $table->string('title', 100)->nullable();
+            $table->text('description')->nullable();
+            $table->string('element', 20);
             $table->uuid('detail_id')->nullable();
             $table->timestamps();
 
             $table->index(['presentation_id', 'detail_id']);
-            $table->foreign('presentation_id')->references('id')->on('presentations');
-            $table->foreign('detail_id')->references('id')->on('presentations');
+            $table->foreign('presentation_id')->references('id')->on('presentations')->cascadeOnDelete();
+            $table->foreign('detail_id')->references('id')->on('presentations')->cascadeOnDelete();
         });
     }
 

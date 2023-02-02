@@ -16,15 +16,15 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
-        'email_verified_at'
+//        'email_verified_at'
     ];
 
     protected $hidden = [
         'password',
-        'email_verified_at'
+//        'email_verified_at'
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+//    protected $casts = [
+//        'email_verified_at' => 'datetime',
+//    ];
 }

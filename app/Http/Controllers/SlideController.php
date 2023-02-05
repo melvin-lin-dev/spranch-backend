@@ -96,7 +96,7 @@ class SlideController extends Controller
             'relations' => ['array'],
             'relations.*.id' => ['required', 'uuid', 'exists:relations,id'],
             'relations.*.slide_part_id' => ['required', 'uuid'],
-            'relations.*.title' => ['min:3'],
+            'relations.*.title' => [],
         ]);
 
         if ($validator->fails()) {

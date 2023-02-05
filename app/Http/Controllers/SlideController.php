@@ -107,11 +107,11 @@ class SlideController extends Controller
                 ->save();
 
             foreach ($r->relations as $relation) {
-                $findRelation = Relation::find($relation->id);
-                if ($findRelation->slide_part1_id === $relation->slide_part_id) {
-                    $findRelation->title1 = $relation->title;
+                $findRelation = Relation::find($relation['id']);
+                if ($findRelation->slide_part1_id === $relation['slide_part_id']) {
+                    $findRelation->title1 = $relation['title'];
                 } else {
-                    $findRelation->title2 = $relation->title;
+                    $findRelation->title2 = $relation['title'];
                 }
                 $findRelation->save();
             }
